@@ -31,10 +31,11 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Create .env file
+      - name: Handle DOTENV with special characters
         run: |
           DOTENV="${{ secrets.DOTENV }}"
-          echo "Secret value: ${DOTENV//\)/\\)}"
+          ESCAPED_DOTENV=$(echo "$DOTENV" | sed 's/)/\\)/g')
+          echo "Escaped DOTENV: $ESCAPED_DOTENV"
           
 
       - name: Install dependencies
@@ -53,10 +54,11 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Create .env file
+      - name: Handle DOTENV with special characters
         run: |
           DOTENV="${{ secrets.DOTENV }}"
-          echo "Secret value: ${DOTENV//\)/\\)}"
+          ESCAPED_DOTENV=$(echo "$DOTENV" | sed 's/)/\\)/g')
+          echo "Escaped DOTENV: $ESCAPED_DOTENV"
 
       - name: Log in Docker Hub
         run: echo "${{ secrets.DOCKER_ACCESS_TOKEN }}" | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
