@@ -33,7 +33,7 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "${{ secrets.DOTENV }}" | sed '/^#/d' > .env
+          echo "${{ secrets.DOTENV }}" | sed '/^#/d/)' > .env
           
 
       - name: Install dependencies
@@ -54,7 +54,7 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "${{ secrets.DOTENV }}" | sed '/^#/d' > .env
+          echo "${{ secrets.DOTENV }}" | sed '/^#/d/)' > .env
 
       - name: Log in Docker Hub
         run: echo "${{ secrets.DOCKER_ACCESS_TOKEN }}" | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
