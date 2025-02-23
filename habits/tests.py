@@ -1,7 +1,7 @@
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-
+from datetime import timedelta
 from habits.models import Habit, Place
 from users.models import User
 
@@ -17,7 +17,7 @@ class HabitTestCase(APITestCase):
             action="Test",
             period="every_hour",
             reward="Test_reward",
-            action_time="00:01:00",
+            action_time=timedelta(minutes=1),
         )
         self.client.force_authenticate(user=self.user)
 
@@ -30,7 +30,7 @@ class HabitTestCase(APITestCase):
             "action": "Выполнить тренировку",
             "is_pleasant_habit": False,
             "period": "daily",
-            "action_time": "00:01:00",
+            "action_time": timedelta(minutes=1),
             "is_public": True,
             "reward": "Съесть протеиновый батончик",
         }
@@ -51,7 +51,7 @@ class HabitTestCase(APITestCase):
             "action": "Выполнить тренировку",
             "is_pleasant_habit": False,
             "period": "daily",
-            "action_time": "00:03:00",
+            "action_time": timedelta(minutes=3),
             "is_public": True,
             "reward": "Съесть протеиновый батончик",
         }
@@ -66,7 +66,7 @@ class HabitTestCase(APITestCase):
             place=self.place,
             action="related_test",
             period="daily",
-            action_time="00:01:00",
+            action_time=timedelta(minutes=1),
             is_pleasant_habit=True,
         )
         url = reverse("habits:habit-create")
@@ -76,7 +76,7 @@ class HabitTestCase(APITestCase):
             "action": "Выполнить тренировку",
             "is_pleasant_habit": False,
             "period": "daily",
-            "action_time": "00:02:00",
+            "action_time": timedelta(minutes=2),
             "related_habit": related_habit.id,
             "reward": "Съесть протеиновый батончик",
         }
@@ -95,7 +95,7 @@ class HabitTestCase(APITestCase):
             "action": "Выполнить тренировку",
             "is_pleasant_habit": True,
             "period": "daily",
-            "action_time": "00:02:00",
+            "action_time": timedelta(minutes=2),
             "reward": "Съесть протеиновый батончик",
         }
         response = self.client.post(url, data)
@@ -112,7 +112,7 @@ class HabitTestCase(APITestCase):
             place=self.place,
             action="not_pleasant_test",
             period="daily",
-            action_time="00:02:00",
+            action_time=timedelta(minutes=2),
             is_pleasant_habit=False,
         )
         url = reverse("habits:habit-create")
@@ -122,7 +122,7 @@ class HabitTestCase(APITestCase):
             "action": "Выполнить тренировку",
             "is_pleasant_habit": False,
             "period": "daily",
-            "action_time": "00:02:00",
+            "action_time": timedelta(minutes=2),
             "related_habit": related_habit.id,
         }
         response = self.client.post(url, data)
@@ -138,7 +138,7 @@ class HabitTestCase(APITestCase):
             "action": "Тест_обновление",
             "is_pleasant_habit": False,
             "period": "twice_a_day",
-            "action_time": "00:01:30",
+            "action_time": timedelta(minutes=2),
             "is_public": False,
             "reward": "Test_reward",
         }
